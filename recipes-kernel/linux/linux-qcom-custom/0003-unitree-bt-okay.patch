@@ -1,0 +1,66 @@
+From b9d4e5378d6ad02e3c4431e1ea25c3855247ffaf Mon Sep 17 00:00:00 2001
+From: wangtg <sw_wtg@unitree.com>
+Date: Thu, 28 Nov 2024 08:31:47 +0000
+Subject: [PATCH] unitree: bt okay
+
+---
+ arch/arm64/boot/dts/qcom/sa8775p-ride.dts | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/qcom/sa8775p-ride.dts b/arch/arm64/boot/dts/qcom/sa8775p-ride.dts
+index 4208fc9d687b..7eed08dd3943 100644
+--- a/arch/arm64/boot/dts/qcom/sa8775p-ride.dts
++++ b/arch/arm64/boot/dts/qcom/sa8775p-ride.dts
+@@ -572,13 +572,6 @@ &pmm8654au_1_gpios {
+ 			  "USB2_PWR_EN",
+ 			  "USB2_FAULT";
+ 
+-	bt_en_state: bt-en-state {
+-		pins = "gpio8";
+-		function = "normal";
+-		output-low;
+-		bias-pull-down;
+-	};
+-
+ 	usb2_en_state: usb2-en-state {
+ 		pins = "gpio9";
+ 		function = "normal";
+@@ -797,6 +790,13 @@ wake-pins {
+ 		};
+ 	};
+ 
++	bt_en_state: bt-en-state {
++		pins = "gpio88";
++		function = "gpio";
++		drive-strength = <2>;
++		bias-pull-down;
++	};
++
+ };
+ 
+ &pcie0 {
+@@ -833,6 +833,7 @@ &pcie1_phy {
+ 	status = "okay";
+ };
+ 
++/*
+ &pcieport0 {
+ 	wifi@0 {
+ 		compatible = "qcom,wcn6855-wifi";
+@@ -849,6 +850,7 @@ wifi@0 {
+ 		vddpcie1p8-supply = <&vreg_pmu_pcie_1p8>;
+ 	};
+ };
++*/
+ 
+ &uart10 {
+ 	compatible = "qcom,geni-debug-uart";
+@@ -967,7 +969,7 @@ bluetooth: bluetooth {
+ 		compatible = "qcom,wcn6855-bt";
+ 		pinctrl-names = "default";
+ 		pinctrl-0 = <&bt_en_state>;
+-		enable-gpios = <&pmm8654au_1_gpios 8 GPIO_ACTIVE_HIGH>; /* BT_EN */
++		enable-gpios = <&tlmm 88 GPIO_ACTIVE_HIGH>; /* BT_EN */
+ 
+ 		vddio-supply       = <&vreg_conn_pa>;         /* bt-vdd-ctrl1-supply */
+ 		vddbtcxmx-supply   = <&vreg_conn_1p8>;        /* bt-vdd-ctrl2-supply */

@@ -1,0 +1,22 @@
+From 7d144479bab1c816059c0953712e1c795f212fc9 Mon Sep 17 00:00:00 2001
+From: wangtg <sw_wtg@unitree.com>
+Date: Thu, 28 Nov 2024 08:37:36 +0000
+Subject: [PATCH] unitree: gemini okay
+
+---
+ arch/arm64/boot/dts/qcom/sa8775p-ride.dts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arm64/boot/dts/qcom/sa8775p-ride.dts b/arch/arm64/boot/dts/qcom/sa8775p-ride.dts
+index 7eed08dd3943..ed0c471ab78e 100644
+--- a/arch/arm64/boot/dts/qcom/sa8775p-ride.dts
++++ b/arch/arm64/boot/dts/qcom/sa8775p-ride.dts
+@@ -896,7 +896,7 @@ &usb_0 {
+ };
+ 
+ &usb_0_dwc3 {
+-	dr_mode = "peripheral";
++	dr_mode = "host";
+ };
+ 
+ &usb_0_hsphy {

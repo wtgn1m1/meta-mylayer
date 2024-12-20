@@ -1,0 +1,95 @@
+From 528398bf66ec14393fbceb5af54d7bb04a1418de Mon Sep 17 00:00:00 2001
+From: wangtg <sw_wtg@unitree.com>
+Date: Wed, 27 Nov 2024 08:26:19 +0000
+Subject: [PATCH] unitree: net okay
+
+---
+ arch/arm64/boot/dts/qcom/sa8775p-ride.dts | 10 +++++-----
+ arch/arm64/configs/qcom_defconfig         |  1 +
+ drivers/net/phy/aquantia/aquantia_main.c  |  6 ++++++
+ 3 files changed, 12 insertions(+), 5 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/qcom/sa8775p-ride.dts b/arch/arm64/boot/dts/qcom/sa8775p-ride.dts
+index 31c00528cf37..c6d2bebe4658 100644
+--- a/arch/arm64/boot/dts/qcom/sa8775p-ride.dts
++++ b/arch/arm64/boot/dts/qcom/sa8775p-ride.dts
+@@ -344,7 +344,7 @@ vreg_l8e: ldo8 {
+ };
+ 
+ &ethernet0 {
+-	phy-mode = "sgmii";
++	phy-mode = "2500base-x";
+ 	phy-handle = <&sgmii_phy0>;
+ 
+ 	pinctrl-0 = <&ethernet0_default>;
+@@ -362,7 +362,7 @@ mdio {
+ 		#size-cells = <0>;
+ 
+ 		sgmii_phy0: phy@8 {
+-			compatible = "ethernet-phy-id0141.0dd4";
++			compatible = "ethernet-phy-id31c3.1c33";
+ 			reg = <0x8>;
+ 			device_type = "ethernet-phy";
+ 			reset-gpios = <&pmm8654au_2_gpios 8 GPIO_ACTIVE_LOW>;
+@@ -371,7 +371,7 @@ sgmii_phy0: phy@8 {
+ 		};
+ 
+ 		sgmii_phy1: phy@a {
+-			compatible = "ethernet-phy-id0141.0dd4";
++			compatible = "ethernet-phy-id31c3.1c33";
+ 			reg = <0xa>;
+ 			device_type = "ethernet-phy";
+ 			reset-gpios = <&pmm8654au_2_gpios 9 GPIO_ACTIVE_LOW>;
+@@ -441,14 +441,14 @@ queue3 {
+ };
+ 
+ &ethernet1 {
+-	phy-mode = "sgmii";
++	phy-mode = "2500base-x";
+ 	phy-handle = <&sgmii_phy1>;
+ 
+ 	snps,mtl-rx-config = <&mtl_rx_setup1>;
+ 	snps,mtl-tx-config = <&mtl_tx_setup1>;
+ 	snps,ps-speed = <1000>;
+ 
+-	status = "okay";
++	status = "disabled";
+ 
+ 	mtl_rx_setup1: rx-queues-config {
+ 		snps,rx-queues-to-use = <4>;
+diff --git a/arch/arm64/configs/qcom_defconfig b/arch/arm64/configs/qcom_defconfig
+index 64553cb3c593..7d82800bda8e 100644
+--- a/arch/arm64/configs/qcom_defconfig
++++ b/arch/arm64/configs/qcom_defconfig
+@@ -858,6 +858,7 @@ CONFIG_NFT_NAT=y
+ CONFIG_NF_NAT=y
+ CONFIG_NF_TABLES=y
+ CONFIG_NF_TABLES_INET=y
++CONFIG_AQUANTIA_PHY=m
+ CONFIG_STMMAC_ETH=m
+ CONFIG_MARVELL_PHY=m
+ CONFIG_PHY_QCOM_SGMII_ETH=m
+diff --git a/drivers/net/phy/aquantia/aquantia_main.c b/drivers/net/phy/aquantia/aquantia_main.c
+index e982e9ce44a5..8c9c489f1219 100644
+--- a/drivers/net/phy/aquantia/aquantia_main.c
++++ b/drivers/net/phy/aquantia/aquantia_main.c
+@@ -499,6 +499,11 @@ static int aqr107_config_init(struct phy_device *phydev)
+ 	if (!ret)
+ 		aqr107_chip_info(phydev);
+ 
++	if (phydev->interface == PHY_INTERFACE_MODE_2500BASEX) {
++		phy_set_max_speed(phydev, SPEED_2500);
++		phydev->autoneg = AUTONEG_ENABLE;
++	}
++
+ 	ret = aqr107_set_downshift(phydev, MDIO_AN_VEND_PROV_DOWNSHIFT_DFLT);
+ 	if (ret)
+ 		return ret;
+@@ -1042,6 +1047,7 @@ static struct phy_driver aqr_driver[] = {
+ 	.led_hw_control_set = aqr_phy_led_hw_control_set,
+ 	.led_hw_control_get = aqr_phy_led_hw_control_get,
+ 	.led_polarity_set = aqr_phy_led_polarity_set,
++	.get_features = genphy_c45_pma_read_abilities,
+ },
+ {
+ 	PHY_ID_MATCH_MODEL(PHY_ID_AQR813),

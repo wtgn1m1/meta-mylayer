@@ -1,0 +1,26 @@
+From 978d2856cb201187d6bbae8ce8abefbd385eec83 Mon Sep 17 00:00:00 2001
+From: wangtg <sw_wtg@unitree.com>
+Date: Fri, 6 Dec 2024 13:23:52 +0000
+Subject: [PATCH] unitree: usb wifi ok
+
+---
+ arch/arm64/configs/qcom_defconfig | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/arch/arm64/configs/qcom_defconfig b/arch/arm64/configs/qcom_defconfig
+index 7d82800bda8e..a1e89f0236fa 100644
+--- a/arch/arm64/configs/qcom_defconfig
++++ b/arch/arm64/configs/qcom_defconfig
+@@ -865,3 +865,11 @@ CONFIG_PHY_QCOM_SGMII_ETH=m
+ CONFIG_ATH11K_DEBUGFS=y
+ CONFIG_MAC80211_DEBUGFS=y
+ CONFIG_ARM64_PMEM=y
++
++CONFIG_MT76_CORE=m
++CONFIG_MT76_LEDS=y
++CONFIG_MT76_USB=m
++CONFIG_MT76x02_LIB=m
++CONFIG_MT76x02_USB=m
++
++CONFIG_USB_G_WEBCAM=m
+\ No newline at end of file
